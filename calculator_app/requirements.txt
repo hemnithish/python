@@ -1,0 +1,2 @@
+echo "Flask==2.0.1" > requirements.txt
+echo "gunicorn==20.0.4" >> requirements.txt
