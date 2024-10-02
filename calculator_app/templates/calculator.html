@@ -1,22 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Calculator App</h1>
-    </header>
+{% extends 'base.html' %}
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+{% block content %}
+<h2>Simple Calculator</h2>
+<form action="{{ url_for('calculate') }}" method="POST">
+    <label for="num1">Enter first number:</label>
+    <input type="text" id="num1" name="num1" required><br>
 
-    <footer>
-        <p>Basic Flask Calculator Application</p>
-    </footer>
-</body>
-</html>
+    <label for="operation">Select operation:</label>
+    <select id="operation" name="operation" required>
+        <option value="add">Add</option>
+        <option value="subtract">Subtract</option>
+        <option value="multiply">Multiply</option>
+        <option value="divide">Divide</option>
+    </select><br>
+
+    <label for="num2">Enter second number:</label>
+    <input type="text" id="num2" name="num2" required><br>
+
+    <input type="submit" value="Calculate">
+</form>
+
+{% if result is not none %}
+<h3>Result: {{ result }}</h3>
+{% endif %}
+{% endblock %}
