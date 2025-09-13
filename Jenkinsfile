@@ -20,8 +20,10 @@ pipeline {
 
   stage('Push to Docker Hub') {
     steps {
-        withCredentials([string(credentialsId: 'docker-token', variable: 'DOCKER_PASS')]) {
-                    bat '<nul set /p ="%DOCKER_PASS%" | docker login -u hemis15 --password-stdin'
+         withCredentials([string(credentialsId: 'docker-hub-token', variable: 'DOCKER_TOKEN')]) {
+                    bat """
+                        docker logout
+                        docker login -u hemis15 -p %DOCKER_TOKEN%
                 docker push hemis15/calculator-app:5
             """
         }
