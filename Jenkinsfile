@@ -20,7 +20,7 @@ pipeline {
 
   stage('Push to Docker Hub') {
     steps {
-         withCredentials([string(credentialsId: 'docker-hub-token', variable: 'DOCKER_TOKEN')]) {
+         withCredentials([string(credentialsId: 'jenkins-token', variable: 'DOCKER_TOKEN')]) {
                     bat """
                         docker logout
                         docker login -u hemis15 -p %DOCKER_TOKEN%
