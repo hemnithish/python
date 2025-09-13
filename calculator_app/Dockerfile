@@ -5,7 +5,7 @@ FROM python:3.10-slim
 WORKDIR /app
 
 # Copy your calculator_app folder into container
-COPY calculator_app/ /app
+COPY . /app
 
 # Install dependencies
 RUN pip install --upgrade pip
