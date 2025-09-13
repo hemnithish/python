@@ -18,16 +18,17 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Hub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    bat '''
-                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
-                    docker push %DOCKER_IMAGE%:%BUILD_NUMBER%
-                    '''
-                }
-            }
+  stage('Push to Docker Hub') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            bat """
+                echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                docker push hemis15/calculator-app:5
+            """
         }
+    }
+}
+
 
         stage('Deploy Container') {
             steps {
