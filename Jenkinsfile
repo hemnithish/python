@@ -34,8 +34,6 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 bat '''
-                docker stop calculator-app || exit 0
-                docker rm calculator-app || exit 0
                 docker run -d --name calculator-app -p 5000:5000 %DOCKER_IMAGE%:%BUILD_NUMBER%
                 '''
             }
