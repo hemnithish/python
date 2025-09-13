@@ -35,7 +35,7 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 bat '''
-                docker run -d --name calculator-app -p 5000:5000 %DOCKER_IMAGE%:%%IMAGE_TAG%
+                docker run -d --name calculator-app -p 5000:5000 %DOCKER_IMAGE%:%IMAGE_TAG%
                 '''
             }
         }
