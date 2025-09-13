@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "hemis15/calculator-app"
+        IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
     stages {
@@ -24,7 +25,7 @@ pipeline {
                     bat """
                         docker logout
                         docker login -u hemis15 -p %DOCKER_TOKEN%
-                docker push hemis15/calculator-app:%BUILD_NUMBER%
+                docker push %DOCKER_IMAGE%:%IMAGE_TAG%
             """
         }
     }
@@ -34,7 +35,7 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 bat '''
-                docker run -d --name calculator-app -p 5000:5000 %DOCKER_IMAGE%:%BUILD_NUMBER%
+                docker run -d --name calculator-app -p 5000:5000 %DOCKER_IMAGE%:%%IMAGE_TAG%
                 '''
             }
         }
