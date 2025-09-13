@@ -24,7 +24,7 @@ pipeline {
                     bat """
                         docker logout
                         docker login -u hemis15 -p %DOCKER_TOKEN%
-                docker push hemis15/calculator-app:5
+                docker push hemis15/calculator-app:%BUILD_NUMBER%
             """
         }
     }
