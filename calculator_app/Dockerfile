@@ -1,6 +1,6 @@
 # Use Python 3.10 slim image
-FROM python:3.10-slim
-
+FROM python:3.10-slim-bullseye
+RUN pip install --upgrade pip setuptools
 # Set working directory inside container
 WORKDIR /app
 
