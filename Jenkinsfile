@@ -18,7 +18,27 @@ pipeline {
                 bat 'docker build -t %DOCKER_IMAGE%:%BUILD_NUMBER% ./calculator_app'
             }
         }
-
+        stage('Scan Image for Vulnerabilities') {
+            steps {
+                script {
+                    // Trivy scan using Docker
+                    bat """
+                    docker run --rm -v //./pipe/docker_engine://./pipe/docker_engine -v %cd%:/workdir aquasec/trivy image ^
+                    --format json -o /workdir/trivy-report.json ^
+                    --exit-code 1 --severity CRITICAL,HIGH %DOCKER_IMAGE%:%IMAGE_TAG%
+                    """
+                }
+            }
+            post {
+                always {
+                    // Save the report as Jenkins artifact
+                    archiveArtifacts artifacts: 'trivy-report.json', allowEmptyArchive: true
+                }
+                failure {
+                    error "❌ HIGH or CRITICAL vulnerabilities detected — build failed!"
+                }
+            }
+        }
   stage('Push to Docker Hub') {
     steps {
          withCredentials([string(credentialsId: 'docker-token', variable: 'DOCKER_TOKEN')]) {
